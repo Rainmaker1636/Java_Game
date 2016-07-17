@@ -7,7 +7,7 @@ public class startGame {
 
 	public static void main(String[] args) {
 		//使用有参构造函数
-		Hunter h = new Hunter();
+		Hunter h = new Hunter("奥特曼","奥特之光");
 		Monster mon = new Monster(3);
 		
 		//发起进攻
