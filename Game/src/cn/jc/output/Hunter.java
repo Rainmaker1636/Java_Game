@@ -99,7 +99,12 @@ public class Hunter {
 	}
 	//奥特曼受伤方法  怪兽攻击时调用奥特曼受伤方法时，传递 怪兽的攻击力
 	public void injured(int monsterAttack){
-		life = life + this.getHunterDefend()-monsterAttack-20;
+		//如果怪兽的攻击力小于奥特曼的防御力则直接减少20
+		if(monsterAttack-this.getHunterDefend()>0){
+			life = life + this.getHunterDefend()-monsterAttack-20;
+		}else{
+			life-=20;
+		}
 		System.out.println(hunterName+":死怪物，居然敢打我！！！");
 		//判断是否死亡
 		if(life==0){
