@@ -6,9 +6,9 @@ package cn.jc.output;
 public class startGame {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Hunter h = new Hunter("奥特之光");
-		Monster mon = new Monster(3);//无需赋值 使用构造函数已经进行赋值
+		//使用有参构造函数
+		Hunter h = new Hunter();
+		Monster mon = new Monster(3);
 		
 		//发起进攻
 		h.fight(mon);//奥特曼进攻

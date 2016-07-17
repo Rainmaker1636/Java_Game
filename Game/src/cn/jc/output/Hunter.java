@@ -8,8 +8,14 @@ public class Hunter {
 	int    life;
 	String weapon;
 	boolean isLive;
-	
-	//使用构造函数进行赋值
+	//使用无参构造函数对奥特曼进行初始化
+	public Hunter(){
+		this.hunterName = "奥特曼";
+		this.isLive = true;
+		this.life = 100;
+		this.weapon = "拳头";//等于没有武器肉身进行攻击无任何攻击力加成
+	}
+	//使用有参构造函数对奥特曼进行初始化
 	public Hunter(String weapon){
 		this.hunterName = "奥特曼";
 		this.isLive = true;
