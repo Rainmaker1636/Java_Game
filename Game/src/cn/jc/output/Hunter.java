@@ -19,7 +19,7 @@ public class Hunter {
 			return;
 		}
 		//没有死亡，进行攻击,Monster受伤
-		System.out.println(name+"开始进攻");
+		System.out.println(name+"使用"+weapon+"开始进攻");
 		mon.injured();
 		mon.show();
 	}
