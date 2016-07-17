@@ -4,11 +4,12 @@ package cn.jc.output;
  * @author:Mrdong916
  */
 public class Hunter {
-	private String hunterName;
-	private int life;
-	private String weapon;
-	private boolean isLive;
-	
+	private String hunterName;//名字
+	private int life;//生命值
+	private String weapon;//武器
+	private boolean isLive;//生命状态
+	private int hunterAttack;//攻击力
+	private int hunterDefend;//防御力
 	
 	//set get方法访问保护的属性
 	public String getHunterName() {
@@ -35,19 +36,38 @@ public class Hunter {
 	public void setLive(boolean isLive) {
 		this.isLive = isLive;
 	}
-	//使用无参构造函数对奥特曼进行初始化
-	// 暂时无用
+	
+	public int getHunterAttack() {
+		return hunterAttack;
+	}
+	
+	public void setHunterAttack(int hunterAttack) {
+		this.hunterAttack = hunterAttack;
+	}
+	
+	public int getHunterDefend() {
+		return hunterDefend;
+	}
+	
+	public void setHunterDefend(int hunterDefend) {
+		this.hunterDefend = hunterDefend;
+	}
+	//使用无参构造函数对奥特曼进行初始化// 暂时无用
 	public Hunter(){
 		this.hunterName = "奥特曼";
 		this.isLive = true;
 		this.life = 100;
 		this.weapon = "拳头";//等于没有武器肉身进行攻击无任何攻击力加成
+		this.hunterAttack = 30;//基础攻击力
+		this.hunterDefend = 20;//基础防御力
 	}
 	//使用有参构造函数对奥特曼进行初始化
 	public Hunter(String hunterName,String weapon){
 		this.hunterName = hunterName;
 		this.isLive = true;
 		this.life = 100;
+		this.hunterAttack = 30;//基础攻击力
+		this.hunterDefend = 20;//基础防御力
 		/**
 		 * example:保护属性的两种赋值方法
 		 * Author:Mrdong916
@@ -59,6 +79,7 @@ public class Hunter {
 		//String setWeapon = weapon;
 		//setWeapon(setWeapon);
 	}
+	//奥特曼攻击方法
 	public void fight(Monster mon){
 		
 		//判断hunter是否死亡
@@ -73,11 +94,12 @@ public class Hunter {
 		
 		//没有死亡，进行攻击,Monster受伤
 		System.out.println(hunterName+"使用"+weapon+"开始进攻");
-		mon.injured();
+		mon.injured(this.hunterAttack); //调用怪兽受伤方法，将奥特曼的攻击力传递给怪兽受伤方法
 		mon.show();
 	}
-	public void injured(){
-		life-=20;
+	//奥特曼受伤方法  怪兽攻击时调用奥特曼受伤方法时，传递 怪兽的攻击力
+	public void injured(int monsterAttack){
+		life = life + this.getHunterDefend()-monsterAttack-20;
 		System.out.println(hunterName+":死怪物，居然敢打我！！！");
 		//判断是否死亡
 		if(life==0){
@@ -89,10 +111,12 @@ public class Hunter {
 		}
 		
 	}
+	//奥特曼受伤方法
 	public void dead(){
 		System.out.println("我"+hunterName+"复活之时，定是你灭亡之日！！！");
 		isLive = false;
 	}
+	//奥特曼状态
 	public void show(){
 		System.out.println("========================");
 		System.out.println(hunterName+"状态");
