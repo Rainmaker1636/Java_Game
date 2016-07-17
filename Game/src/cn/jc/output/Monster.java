@@ -87,13 +87,12 @@ public class Monster {
 		}
 		//继续攻击，hunter受伤
 		System.out.println(monsterName+"开始进攻");
-		hun.injured(this.monsterAttack);
-		hun.show();
+		hun.injured(this);//this 指向自己将自己传递过去，使hunter受伤
 	}
 	//怪兽受伤方法     奥特曼攻击时调用怪兽受伤方法时，传递 奥特曼的攻击力
-	public void injured(int hunterAttack){
-		if(hunterAttack-this.monsterrDefend>0){
-			life = life + this.monsterrDefend - hunterAttack - 20;
+	public void injured(Hunter hun){//此处的Hunter hun就是传递过来的的this
+		if(hun.getHunterAttack()-this.monsterrDefend>0){
+			life = life + this.monsterrDefend - hun.getHunterAttack() - 20;
 		}else{
 			life-=20;
 		}
@@ -102,15 +101,17 @@ public class Monster {
 		if(life<=0){
 			dead();
 			return;
-		}else{
-			//如果没有死亡则进行自动反击
-			//kill(Hunter hun);
 		}
+		//显示状态
+		show();
+		//如果没有死亡则进行自动反击
+		kill(hun);
 	}
 	//怪兽死亡
 	public void dead(){
 		System.out.println("呜呜啊啊啊啊~~~");
 		isLive = false;
+		System.out.println(this.monsterName+"已经死亡！");
 	}
 	//怪兽状态
 	public void show(){

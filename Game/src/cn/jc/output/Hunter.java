@@ -56,7 +56,7 @@ public class Hunter {
 	public Hunter(){
 		this.hunterName = "奥特曼";
 		this.isLive = true;
-		this.life = 100;
+		this.life = 200;
 		this.weapon = "拳头";//等于没有武器肉身进行攻击无任何攻击力加成
 		this.hunterAttack = 30;//基础攻击力
 		this.hunterDefend = 20;//基础防御力
@@ -65,7 +65,7 @@ public class Hunter {
 	public Hunter(String hunterName,String weapon){
 		this.hunterName = hunterName;
 		this.isLive = true;
-		this.life = 100;
+		this.life = 200;
 		this.hunterAttack = 30;//基础攻击力
 		this.hunterDefend = 20;//基础防御力
 		/**
@@ -94,14 +94,13 @@ public class Hunter {
 		
 		//没有死亡，进行攻击,Monster受伤
 		System.out.println(hunterName+"使用"+weapon+"开始进攻");
-		mon.injured(this.hunterAttack); //调用怪兽受伤方法，将奥特曼的攻击力传递给怪兽受伤方法
-		mon.show();
+		mon.injured(this); //调用怪兽受伤方法，将奥特曼的攻击力传递给怪兽受伤方法
 	}
 	//奥特曼受伤方法  怪兽攻击时调用奥特曼受伤方法时，传递 怪兽的攻击力
-	public void injured(int monsterAttack){
+	public void injured(Monster mon){  //此处的Monster mon就是传递过来的this
 		//如果怪兽的攻击力小于奥特曼的防御力则直接减少20
-		if(monsterAttack-this.getHunterDefend()>0){
-			life = life + this.getHunterDefend()-monsterAttack-20;
+		if(mon.getMonsterAttack()-this.getHunterDefend()>0){
+			life = life + this.getHunterDefend()-mon.getMonsterAttack()-20;
 		}else{
 			life-=20;
 		}
@@ -110,16 +109,18 @@ public class Hunter {
 		if(life==0){
 			dead();
 			return;
-		}else{
-			//如果没有死亡则进行反击
-			//fight(Monster mon);
 		}
+		//显示状态
+		show();
+		//如果没有死亡则进行反击
+		fight(mon);
 		
 	}
 	//奥特曼受伤方法
 	public void dead(){
 		System.out.println("我"+hunterName+"复活之时，定是你灭亡之日！！！");
 		isLive = false;
+		System.out.println(this.hunterName+"已经死亡！");
 	}
 	//奥特曼状态
 	public void show(){

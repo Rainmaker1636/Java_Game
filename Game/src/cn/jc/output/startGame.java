@@ -13,16 +13,6 @@ public class startGame {
 		//·¢Æð½ø¹¥
 		h.fight(mon);//°ÂÌØÂü½ø¹¥
 		mon.kill(h);//¹ÖÊÞ½ø¹¥
-		h.fight(mon);
-		mon.kill(h);
-		h.fight(mon);
-		mon.kill(h);
-		h.fight(mon);
-		mon.kill(h);
-		h.fight(mon);
-		mon.kill(h);
-		h.fight(mon);
-		mon.kill(h);
 	}
 
 }
