@@ -1,7 +1,7 @@
 package cn.jc.output;
 /**
- * @function:有关Monster操作
- * @author:Mrdong916
+ * @Function:有关Monster操作
+ * @Author:Mrdong916
  */
 public class Monster {
 	private String monsterName;//怪兽名字
@@ -10,6 +10,7 @@ public class Monster {
 	private int monsterAttack;//攻击力
 	private int monsterDefend;//防御力
 	private int exp;//怪兽所带经验值
+	private int monsterAgile;//敏捷度
 	
 	//构造函数 对怪兽进行初始化
 	public Monster(int monType){
@@ -21,6 +22,7 @@ public class Monster {
 			this.monsterAttack = 10;
 			this.monsterDefend = 10;
 			this.exp = this.life;
+			this.monsterAgile = 10;
 		}else if(monType==2){
 			this.monsterName = "大怪兽";
 			this.life = 40;
@@ -28,6 +30,7 @@ public class Monster {
 			this.monsterAttack = 20;
 			this.monsterDefend = 20;
 			this.exp = this.life;
+			this.monsterAgile = 15;
 		}else if(monType==3){
 			this.monsterName = "超级怪兽";
 			this.life = 50;
@@ -35,6 +38,7 @@ public class Monster {
 			this.monsterAttack = 30;
 			this.monsterDefend = 30;
 			this.exp = this.life;
+			this.monsterAgile = 20;
 		}
 	}
 	
@@ -42,57 +46,50 @@ public class Monster {
 	public String getMonsterName() {
 		return monsterName;
 	}
-
 	public void setMonsterName(String monsterName) {
 		this.monsterName = monsterName;
 	}
-
 	public boolean isLive() {
 		return isLive;
 	}
-
 	public void setLive(boolean isLive) {
 		this.isLive = isLive;
 	}
-
 	public int getLife() {
 		return life;
 	}
-
 	public void setLife(int life) {
 		this.life = life;
 	}
-
 	public int getMonsterAttack() {
 		return monsterAttack;
 	}
-
 	public void setMonsterAttack(int monsterAttack) {
 		this.monsterAttack = monsterAttack;
 	}
-
 	public int getMonsterrDefend() {
 		return monsterDefend;
 	}
-
 	public void setMonsterrDefend(int monsterrDefend) {
 		this.monsterDefend = monsterrDefend;
 	}
-
 	public int getMonsterDefend() {
 		return monsterDefend;
 	}
-
 	public void setMonsterDefend(int monsterDefend) {
 		this.monsterDefend = monsterDefend;
 	}
-
 	public int getExp() {
 		return exp;
 	}
-
 	public void setExp(int exp) {
 		this.exp = exp;
+	}
+	public int getMonsterAgile() {
+		return monsterAgile;
+	}
+	public void setMonsterAgile(int monsterAgile) {
+		this.monsterAgile = monsterAgile;
 	}
 
 	//怪兽攻击方法
@@ -111,16 +108,22 @@ public class Monster {
 	}
 	//怪兽受伤方法     奥特曼攻击时调用怪兽受伤方法时，传递 奥特曼的攻击力
 	public void injured(Hunter hun){//此处的Hunter hun就是传递过来的的this
-		if(hun.getHunterAttack()-this.monsterDefend>0){
-			life = life + this.monsterDefend - hun.getHunterAttack() - 10;
+		//怪兽进行闪躲
+		if(hidden()){
+			System.out.println(monsterName+"闪避成功");
 		}else{
-			life-=10;
-		}
-		System.out.println(monsterName+":噢呜呜呜呜呜呜呜呜~~~");
-		//判断是否死亡
-		if(life<=0){
-			dead(hun);
-			return;
+			//怪兽受伤
+			if(hun.getHunterAttack()-this.monsterDefend>0){
+				life = life + this.monsterDefend - hun.getHunterAttack() - 10;
+			}else{
+				life-=10;
+			}
+			System.out.println(monsterName+":噢呜呜呜呜呜呜呜呜~~~");
+			//判断是否死亡
+			if(life<=0){
+				dead(hun);
+				return;
+			}
 		}
 		//显示状态
 		show();
@@ -146,13 +149,24 @@ public class Monster {
 		System.out.println("==========V===========");
 	}
 	//死亡输出判断
-		public String isLive2(){
-			String live;
-			if(this.isLive){
-				live = "正常";
-			}else{
-				live = "死亡";
-			}
-			return live;
+	public String isLive2(){
+		String live;
+		if(this.isLive){
+			live = "正常";
+		}else{
+			live = "死亡";
 		}
+		return live;
+	}
+	//闪躲函数
+	public boolean hidden(){
+		int random = (int) (Math.random() * (100-1) +1);//随机生成1-100之间的整数
+		//如果随机数小于等于闪躲率则躲避成功
+		if(this.monsterAgile*60/100>=random){
+			return true;
+		}else{
+			return false;
+		}
+		
+	}
 }

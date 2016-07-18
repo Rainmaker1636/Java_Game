@@ -1,7 +1,7 @@
 package cn.jc.output;
 /**
- * @function:有关Hunter操作
- * @author:Mrdong916
+ * @Function:有关Hunter操作
+ * @Author:Mrdong916
  */
 public class Hunter {
 	private String hunterName;//名字
@@ -13,7 +13,8 @@ public class Hunter {
 	private int hunterDefend;//防御力	
 	private int level;//等级
 	private int currentExperience;//当前经验
-
+	private int hunterAgile;//敏捷度
+	private int hunterMaxAgile;
 	
 	//set get方法访问保护的属性
 	public String getHunterName() {
@@ -39,20 +40,16 @@ public class Hunter {
 	}
 	public void setLive(boolean isLive) {
 		this.isLive = isLive;
-	}
-	
+	}	
 	public int getHunterAttack() {
 		return hunterAttack;
 	}
-	
 	public void setHunterAttack(int hunterAttack) {
 		this.hunterAttack = hunterAttack;
-	}
-	
+	}	
 	public int getHunterDefend() {
 		return hunterDefend;
-	}
-	
+	}	
 	public void setHunterDefend(int hunterDefend) {
 		this.hunterDefend = hunterDefend;
 	}
@@ -74,6 +71,18 @@ public class Hunter {
 	public void setLevel(int level) {
 		this.level = level;
 	}
+	public int getHunterAgile() {
+		return hunterAgile;
+	}
+	public void setHunterAgile(int hunterAgile) {
+		this.hunterAgile = hunterAgile;
+	}
+	public int getHunterMaxAgile() {
+		return hunterMaxAgile;
+	}
+	public void setHunterMaxAgile(int hunterMaxAgile) {
+		this.hunterMaxAgile = hunterMaxAgile;
+	}
 	//使用无参构造函数对奥特曼进行初始化// 暂时无用
 	public Hunter(){
 		this.hunterName = "奥特曼";
@@ -85,6 +94,8 @@ public class Hunter {
 		this.hunterDefend = 10;//基础防御力
 		this.level = 1;//当前等级
 		this.currentExperience = 0;//初始经验
+		this.hunterAgile = 10;//初始化敏捷度
+		this.hunterMaxAgile = 100;//最高敏捷度
 	}
 	//使用有参构造函数对奥特曼进行初始化
 	public Hunter(String hunterName,String weapon){
@@ -96,6 +107,8 @@ public class Hunter {
 		this.hunterDefend = 20;//基础防御力
 		this.level = 1;//当前等级
 		this.currentExperience = 0;//初始经验
+		this.hunterAgile = 20;//初始化敏捷度
+		this.hunterMaxAgile = 100;//最高敏捷度
 		/**
 		 * example:保护属性的两种赋值方法
 		 * Author:Mrdong916
@@ -124,19 +137,39 @@ public class Hunter {
 		System.out.println(hunterName+"使用"+weapon+"开始进攻");
 		mon.injured(this); //调用怪兽受伤方法，将奥特曼的攻击力传递给怪兽受伤方法
 	}
+	//闪躲方法
+	public boolean hidden(){
+		int radomRate= (int) (Math.random() * (this.hunterMaxAgile-1)  +1);//计算随机率
+		
+		//如果随机数小于等于闪躲率则躲避成功
+		if(this.hunterAgile*60/this.hunterMaxAgile>=radomRate){
+			
+			return true;//返回闪躲成功
+			
+		}else{
+			return false;//返回闪躲失败
+		}
+		
+	}
 	//奥特曼受伤方法  怪兽攻击时调用奥特曼受伤方法时，传递 怪兽的攻击力
 	public void injured(Monster mon){  //此处的Monster mon就是传递过来的this
-		//如果怪兽的攻击力小于奥特曼的防御力则直接减少10
-		if(mon.getMonsterAttack()-this.getHunterDefend()>0){
-			this.currentLife = this.currentLife + this.getHunterDefend()-mon.getMonsterAttack()-10;
+		//调用闪躲如果闪躲成功直接避免伤害
+		if(hidden()){
+			//如果闪躲成功则进行下面的操作
+			System.out.println(hunterName+"闪避成功");
 		}else{
-			this.currentLife-=10;
-		}
-		System.out.println(hunterName+":死怪物，居然敢打我！！！");
-		//判断是否死亡
-		if(currentLife<=0){
-			dead(mon);
-			return;
+			//如果怪兽的攻击力小于奥特曼的防御力则直接减少10
+			if(mon.getMonsterAttack()-this.getHunterDefend()>0){
+				this.currentLife = this.currentLife + this.getHunterDefend()-mon.getMonsterAttack()-10;
+			}else{
+				this.currentLife-=10;
+			}
+			System.out.println(hunterName+":死怪物，居然敢打我！！！");
+			//判断是否死亡
+			if(currentLife<=0){
+				dead(mon);
+				return;
+			}
 		}
 		//显示状态
 		show();
@@ -144,7 +177,7 @@ public class Hunter {
 		fight(mon);
 		
 	}
-	//奥特曼受伤方法
+	//奥特曼死亡方法
 	public void dead( Monster mon){
 		System.out.println(this.hunterName+"已经死亡！");
 		System.out.println("我"+hunterName+"复活之时，定是你灭亡之日！！！");
@@ -158,6 +191,7 @@ public class Hunter {
 		System.out.println("等级:"+level);
 		System.out.println("攻击力:"+hunterAttack);
 		System.out.println("防御力:"+hunterDefend);
+		System.out.println("敏捷度:"+hunterAgile);
 		System.out.println("生命状态:"+isLive());
 		System.out.println("当前生命值"+currentLife+"/最大生命值"+maxLife);
 		System.out.println("当前经验值"+getCurrentExperience()+"/升级经验值"+needExperience());
@@ -177,7 +211,7 @@ public class Hunter {
 	public int needExperience(){
 		int needExperience = 0;
 		for(int i = 1;i<=level;i++){
-			needExperience = needExperience+50*i;
+			needExperience = needExperience + 50 * i;
 		}
 		return needExperience;
 	}
@@ -199,7 +233,11 @@ public class Hunter {
 		currentLife = maxLife;
 		hunterAttack += 10;
 		hunterDefend += 8;
+		hunterAgile += 5;
+		//当hunter敏捷度大于最大值时让其等于最大值
+		if(this.hunterAgile>this.hunterMaxAgile){
+			this.hunterAgile = this.hunterMaxAgile;
+		}
 		System.out.println(hunterName+"等级提升至"+level+"级！");
 	}
-
 }
