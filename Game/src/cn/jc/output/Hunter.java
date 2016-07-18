@@ -180,10 +180,11 @@ public class Hunter {
 		}
 		return live;
 	}
-	/**
-	 * Function:奥特曼升级功能
-	 * Author:Mrdong916
-	 */
+	//增加经验值功能
+	public void expAdd(Monster mon){
+		setCurrentExperience( getCurrentExperience() +mon.getExp());//怪兽死后进行对当前经验增加
+	}
+	//升级功能
 	public void hunterUpdate(){
 		
 	}

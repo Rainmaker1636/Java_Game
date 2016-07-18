@@ -79,6 +79,22 @@ public class Monster {
 		this.monsterDefend = monsterrDefend;
 	}
 
+	public int getMonsterDefend() {
+		return monsterDefend;
+	}
+
+	public void setMonsterDefend(int monsterDefend) {
+		this.monsterDefend = monsterDefend;
+	}
+
+	public int getExp() {
+		return exp;
+	}
+
+	public void setExp(int exp) {
+		this.exp = exp;
+	}
+
 	//怪兽攻击方法
 	public void kill(Hunter hun){
 		//判断Monster是否死亡
@@ -115,7 +131,7 @@ public class Monster {
 	public void dead(Hunter hun){
 		System.out.println("呜呜啊啊啊啊~~~");
 		isLive = false;
-		hun.setCurrentExperience( hun.getCurrentExperience() + exp);//怪兽死后进行对当前经验增加
+		hun.expAdd(this);
 		System.out.println(this.monsterName+"已经死亡！");
 		hun.show();
 	}
