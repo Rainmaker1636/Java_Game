@@ -13,7 +13,6 @@ public class Hunter {
 	private int hunterDefend;//防御力	
 	private int level;//等级
 	private int currentExperience;//当前经验
-	private int levelExperience;//等级经验
 
 	
 	//set get方法访问保护的属性
@@ -69,12 +68,6 @@ public class Hunter {
 	public void setCurrentExperience(int currentExperience) {
 		this.currentExperience = currentExperience;
 	}
-	public int getLevelExperience() {
-		return levelExperience;
-	}
-	public void setLevelExperience(int levelExperience) {
-		this.levelExperience = levelExperience;
-	}
 	public int getLevel() {
 		return level;
 	}
@@ -100,7 +93,7 @@ public class Hunter {
 		this.maxLife = 50;
 		this.currentLife = this.maxLife;
 		this.hunterAttack = 20;//基础攻击力
-		this.hunterDefend = 10;//基础防御力
+		this.hunterDefend = 20;//基础防御力
 		this.level = 1;//当前等级
 		this.currentExperience = 0;//初始经验
 		/**
@@ -167,7 +160,7 @@ public class Hunter {
 		System.out.println("防御力:"+hunterDefend);
 		System.out.println("生命状态:"+isLive());
 		System.out.println("当前生命值"+currentLife+"/最大生命值"+maxLife);
-		System.out.println("当前经验"+getCurrentExperience()+"/下一等级经验"+getLevelExperience());
+		System.out.println("当前经验值"+getCurrentExperience()+"/升级经验值"+needExperience());
 		System.out.println("===========V===========");
 	}
 	//死亡输出判断
@@ -180,13 +173,33 @@ public class Hunter {
 		}
 		return live;
 	}
+	//升级经验值
+	public int needExperience(){
+		int needExperience = 0;
+		for(int i = 1;i<=level;i++){
+			needExperience = needExperience+50*i;
+		}
+		return needExperience;
+	}
 	//增加经验值功能
 	public void expAdd(Monster mon){
 		setCurrentExperience( getCurrentExperience() +mon.getExp());//怪兽死后进行对当前经验增加
+		System.out.println("战胜"+mon.getMonsterName()+"获得"+mon.getExp()+"经验！");
+		//判断是否升级
+		if(currentExperience>=needExperience()){
+			//当现有的经验值大于升级所需经验值则进行升级
+			hunterUpgrade();//调用升级方法
+			return;
+		}
 	}
 	//升级功能
-	public void hunterUpdate(){
-		
+	public void hunterUpgrade(){
+		level ++;
+		maxLife += 50;
+		currentLife = maxLife;
+		hunterAttack += 10;
+		hunterDefend += 8;
+		System.out.println(hunterName+"等级提升至"+level+"级！");
 	}
 
 }
