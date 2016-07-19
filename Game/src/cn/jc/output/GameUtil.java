@@ -11,6 +11,16 @@ public class GameUtil {
 			return false;
 		}		
 	}
+	//判断伤害值 当调用时则直接返回所剩生命值
+	public static int hurt(int currentLife,int attack, int defend){
+		//如果敌方攻击力小于我方的防御力则直接受伤10
+		if(attack-defend>0){
+			return  (currentLife + defend-attack-10);
+		}else{
+			return currentLife-10;
+		}
+	}
+	
 	//死亡输出判断
 	public static String isLive( boolean isLive){
 		String live;

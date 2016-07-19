@@ -113,11 +113,7 @@ public class Monster {
 			System.out.println(monsterName+"иа╠эЁи╧╕");
 		}else{
 			//╧жйчйэик
-			if(hun.getHunterAttack()-this.monsterDefend>0){
-				life = life + this.monsterDefend - hun.getHunterAttack() - 10;
-			}else{
-				life-=10;
-			}
+				this.life = GameUtil.hurt(this.getLife(),hun.getHunterAttack(),this.monsterDefend);
 			System.out.println(monsterName+":Ючньньньньньньньнь~~~");
 			//еп╤ойг╥ЯкюмЖ
 			if(life<=0){

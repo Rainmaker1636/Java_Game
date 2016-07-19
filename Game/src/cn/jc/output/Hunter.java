@@ -117,8 +117,7 @@ public class Hunter {
 		//方法一 >>>通过this指针来解决赋值问题
 		this.weapon = weapon;
 		//方法二>>>通过set方法来解决赋值问题
-		//String setWeapon = weapon;
-		//setWeapon(setWeapon);
+		//setWeapon(weapon);
 	}
 	//奥特曼攻击方法
 	public void fight(Monster mon){
@@ -144,12 +143,8 @@ public class Hunter {
 			//如果闪躲成功则进行下面的操作
 			System.out.println(hunterName+"闪避成功");
 		}else{
-			//如果怪兽的攻击力小于奥特曼的防御力则直接减少10
-			if(mon.getMonsterAttack()-this.getHunterDefend()>0){
-				this.currentLife = this.currentLife + this.getHunterDefend()-mon.getMonsterAttack()-10;
-			}else{
-				this.currentLife-=10;
-			}
+			//调用公共受伤部分
+			this.setCurrentLife(GameUtil.hurt(getCurrentLife(), mon.getMonsterAttack(), getHunterDefend()));
 			System.out.println(hunterName+":死怪物，居然敢打我！！！");
 			//判断是否死亡
 			if(currentLife<=0){
