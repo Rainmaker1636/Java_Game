@@ -109,7 +109,7 @@ public class Monster {
 	//怪兽受伤方法     奥特曼攻击时调用怪兽受伤方法时，传递 奥特曼的攻击力
 	public void injured(Hunter hun){//此处的Hunter hun就是传递过来的的this
 		//怪兽进行闪躲
-		if(hidden()){
+		if(GameUtil.hidden(this.monsterAgile)){
 			System.out.println(monsterName+"闪避成功");
 		}else{
 			//怪兽受伤
@@ -145,28 +145,7 @@ public class Monster {
 		System.out.println("生命值:"+life);
 		System.out.println("攻击力:"+monsterAttack);
 		System.out.println("防御力:"+monsterDefend);
-		System.out.println("生命状态:"+isLive2());
+		System.out.println("生命状态:"+GameUtil.isLive(this.isLive));
 		System.out.println("==========V===========");
-	}
-	//死亡输出判断
-	public String isLive2(){
-		String live;
-		if(this.isLive){
-			live = "正常";
-		}else{
-			live = "死亡";
-		}
-		return live;
-	}
-	//闪躲函数
-	public boolean hidden(){
-		int random = (int) (Math.random() * (100-1) +1);//随机生成1-100之间的整数
-		//如果随机数小于等于闪躲率则躲避成功
-		if(this.monsterAgile*60/100>=random){
-			return true;
-		}else{
-			return false;
-		}
-		
 	}
 }

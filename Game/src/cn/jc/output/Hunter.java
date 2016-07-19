@@ -137,24 +137,10 @@ public class Hunter {
 		System.out.println(hunterName+"使用"+weapon+"开始进攻");
 		mon.injured(this); //调用怪兽受伤方法，将奥特曼的攻击力传递给怪兽受伤方法
 	}
-	//闪躲方法
-	public boolean hidden(){
-		int radomRate= (int) (Math.random() * (this.hunterMaxAgile-1)  +1);//计算随机率
-		
-		//如果随机数小于等于闪躲率则躲避成功
-		if(this.hunterAgile*60/this.hunterMaxAgile>=radomRate){
-			
-			return true;//返回闪躲成功
-			
-		}else{
-			return false;//返回闪躲失败
-		}
-		
-	}
 	//奥特曼受伤方法  怪兽攻击时调用奥特曼受伤方法时，传递 怪兽的攻击力
 	public void injured(Monster mon){  //此处的Monster mon就是传递过来的this
 		//调用闪躲如果闪躲成功直接避免伤害
-		if(hidden()){
+		if(GameUtil.hidden(this.hunterAgile)){
 			//如果闪躲成功则进行下面的操作
 			System.out.println(hunterName+"闪避成功");
 		}else{
@@ -192,21 +178,12 @@ public class Hunter {
 		System.out.println("攻击力:"+hunterAttack);
 		System.out.println("防御力:"+hunterDefend);
 		System.out.println("敏捷度:"+hunterAgile);
-		System.out.println("生命状态:"+isLive());
+		System.out.println("生命状态:"+GameUtil.isLive(this.isLive));
 		System.out.println("当前生命值"+currentLife+"/最大生命值"+maxLife);
 		System.out.println("当前经验值"+getCurrentExperience()+"/升级经验值"+needExperience());
 		System.out.println("===========V===========");
 	}
-	//死亡输出判断
-	public String isLive(){
-		String live;
-		if(isLive){
-			live = "正常";
-		}else{
-			live = "死亡";
-		}
-		return live;
-	}
+
 	//升级经验值
 	public int needExperience(){
 		int needExperience = 0;
