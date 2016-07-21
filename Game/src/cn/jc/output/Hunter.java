@@ -120,7 +120,7 @@ public class Hunter {
 		//setWeapon(weapon);
 	}
 	//奥特曼攻击方法
-	public void fight(Enemy enemy){
+	public void fight(Monster mon){
 		
 		//判断hunter是否死亡
 		if(currentLife<=0){
@@ -128,41 +128,42 @@ public class Hunter {
 		}
 		
 		//判断Monster是否死亡
-		if(!enemy.isLive()){
+		if(!mon.isLive()){
 			return;
 		}
 		
 		//没有死亡，进行攻击,Monster受伤
 		System.out.println(hunterName+"使用"+weapon+"开始进攻");
-		enemy.injured(this); //调用怪兽受伤方法，将奥特曼的攻击力传递给怪兽受伤方法
+		mon.injured(this); //调用怪兽受伤方法，将奥特曼的攻击力传递给怪兽受伤方法
 	}
 	//奥特曼受伤方法  怪兽攻击时调用奥特曼受伤方法时，传递 怪兽的攻击力
-	public void injured(Enemy enemy){  //此处的Monster mon就是传递过来的this
+	public void injured(Monster mon){  //此处的Monster mon就是传递过来的this
 		//调用闪躲如果闪躲成功直接避免伤害
 		if(GameUtil.hidden(this.hunterAgile)){
 			//如果闪躲成功则进行下面的操作
 			System.out.println(hunterName+"闪避成功");
 		}else{
 			//调用公共受伤部分
-			this.currentLife -= GameUtil.hurt( enemy.getEnemyAttack(), getHunterDefend());
+			this.setCurrentLife(GameUtil.hurt(getCurrentLife(), mon.getMonsterAttack(), getHunterDefend()));
 			System.out.println(hunterName+":死怪物，居然敢打我！！！");
 			//判断是否死亡
 			if(currentLife<=0){
-				dead(enemy);
+				dead(mon);
 				return;
 			}
 		}
 		//显示状态
 		show();
 		//如果没有死亡则进行反击
-		fight(enemy);
+		fight(mon);
+		
 	}
 	//奥特曼死亡方法
-	public void dead( Enemy enemy){
+	public void dead( Monster mon){
 		System.out.println(this.hunterName+"已经死亡！");
 		System.out.println("我"+hunterName+"复活之时，定是你灭亡之日！！！");
 		isLive = false;
-		enemy.show();//显示一下敌人状态
+		mon.show();//显示一下敌人状态
 	}
 	//奥特曼状态
 	public void show(){
@@ -187,9 +188,9 @@ public class Hunter {
 		return needExperience;
 	}
 	//增加经验值功能
-	public void expAdd(Enemy enemy){
-		setCurrentExperience( getCurrentExperience() +enemy.getExp());//怪兽死后进行对当前经验增加
-		System.out.println("战胜"+enemy.getEnemyName()+"获得"+enemy.getExp()+"经验！");
+	public void expAdd(Monster mon){
+		setCurrentExperience( getCurrentExperience() +mon.getExp());//怪兽死后进行对当前经验增加
+		System.out.println("战胜"+mon.getMonsterName()+"获得"+mon.getExp()+"经验！");
 		//判断是否升级
 		if(currentExperience>=needExperience()){
 			//当现有的经验值大于升级所需经验值则进行升级
